@@ -68,11 +68,11 @@ def update_plot():
     
 
     # Create a table from the dictionary data
-    table_data = list(zip(Products.keys(), np.round(list(Products.values()), 3)))
+    table_data = list(zip(Products.keys(), ['{:.3e}'.format(val) for val in Products.values()])) #['{:.3e}'.format(val) for val in Products.values()]  np.round(list(Products.values()), 3)
     table = ax2.table(cellText=table_data, colLabels=['Products', 'Molar fraction'], loc='center')
     table.auto_set_font_size(False)
     table.set_fontsize(10)
-    table.scale(1, 1.5)
+    table.scale(1, 1.2)
     # Remove the x and y axis
     ax2.axis('off')
 
@@ -100,7 +100,9 @@ molecule_id_dict = {
     "O2": 7,
     "CH4": 6,
     "C2H6": 27,
-    "H2": 45
+    "H2": 45,
+    "NO":8,
+    "NO2":10
 }
 
 def update_spectrum():
@@ -124,39 +126,46 @@ def update_spectrum():
     Avogadro=6.022e23 # Avogadro number
 
     # Defining the dictionary of dilution for the computation of the spectrum
-    if molecule_id == 1:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']
-        Diluent={'self':Products['X2_H2O'],'O2':Products['X2_O2'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'N2':N2_approx}
+    if molecule_id == 1: # H2O
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_H2O'],'O2':Products['X2_O2'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'N2':N2_approx,'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_H2O']*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 2:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']
-        Diluent={'self':Products['X2_CO2'],'O2':Products['X2_O2'],'H2O':Products['X2_H2O'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'N2':N2_approx}
+    elif molecule_id == 2: # CO2
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_CO2'],'O2':Products['X2_O2'],'H2O':Products['X2_H2O'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'N2':N2_approx,'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_CO2']*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 5:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO2']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']
-        Diluent={'self':Products['X2_CO'],'O2':Products['X2_O2'],'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'N2':N2_approx}
+    elif molecule_id == 5: # CO
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_CO'],'O2':Products['X2_O2'],'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'N2':N2_approx,'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_CO']*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 22:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO2']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']
-        Diluent={'self':N2_approx,'O2':Products['X2_O2'],'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2']}
+    elif molecule_id == 22: # N2
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':N2_approx,'O2':Products['X2_O2'],'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=N2_approx*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 7:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO2']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']
-        Diluent={'self':Products['X2_O2'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2']}
+    elif molecule_id == 7: # O2
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_O2'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_O2']*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 6:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO2']-Products['X2_O2']-Products['X2_Ethane']-Products['X2_H2']
-        Diluent={'self':Products['X2_Methane'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2']}
+    elif molecule_id == 6: # CH4
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_Methane'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_Methane']*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 27:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO2']-Products['X2_O2']-Products['X2_Methane']-Products['X2_H2']
-        Diluent={'self':Products['X2_Ethane'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'CH4':Products['X2_Methane'],'H2':Products['X2_H2']}
+    elif molecule_id == 27: # C2H6
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_Ethane'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'CH4':Products['X2_Methane'],'H2':Products['X2_H2'],'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_Ethane']*total_mol/(100**3)*length1*Avogadro
-    elif molecule_id == 45:
-        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO2']-Products['X2_O2']-Products['X2_Methane']-Products['X2_Ethane']
-        Diluent={'self':Products['X2_H2'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane']}
+    elif molecule_id == 45: # H2
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_H2'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'NO':Products['X2_NO'],'NO2':Products['X2_NO2']}
         Factor_absorption=Products['X2_H2']*total_mol/(100**3)*length1*Avogadro
-
+    elif molecule_id==8: # NO
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_NO'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'NO2':Products['X2_NO2']}
+        Factor_absorption=Products['X2_NO']*total_mol/(100**3)*length1*Avogadro
+    elif molecule_id==10: # NO2
+        N2_approx=1-Products['X2_H2O']-Products['X2_CO2']-Products['X2_CO']-Products['X2_Methane']-Products['X2_Ethane']-Products['X2_H2']-Products['X2_O2']-Products['X2_NO']-Products['X2_NO2']
+        Diluent={'self':Products['X2_NO2'],'N2':N2_approx,'H2O':Products['X2_H2O'],'CO2':Products['X2_CO2'],'CO':Products['X2_CO'],'O2':Products['X2_O2'],'CH4':Products['X2_Methane'],'C2H6':Products['X2_Ethane'],'H2':Products['X2_H2'],'NO':Products['X2_NO']}
+        Factor_absorption=Products['X2_NO2']*total_mol/(100**3)*length1*Avogadro
     # Computing the spectrum
     Data=spectrum(P1,T1,length1,numin_cm,numax_cm,molecule_id,1,method1,wave_step1,Diluent)
     # Getting the data for plotting
@@ -221,7 +230,7 @@ notebook.grid(sticky='nsew')
 input_frame=ttk.LabelFrame(tab1,text="Input initial conditions of the fuel and air")
 input_frame.grid(row=1, column=0,padx=10,pady=10, sticky="nw")
 #Temperature input, 0
-T_label=ttk.Label(input_frame,text="Temperature [°C]:")
+T_label=ttk.Label(input_frame,text="Temperature [K]:")
 T_label.grid(row=0, column=0)
 T=ttk.Entry(input_frame)
 T.grid(row=0, column=1)
@@ -364,7 +373,7 @@ wave_step.grid(row=3, column=1)
 molecule_id_label = ttk.Label(input_frame2, text="Molecule of interest:")
 molecule_id_label.grid(row=4, column=0)
 molecule_id_var = tk.StringVar()
-molecule_id_dropdown = ttk.Combobox(input_frame2, textvariable=molecule_id_var, values=["H2O", "CO2", "CO", "N2", "O2","CH4","H2"]) 
+molecule_id_dropdown = ttk.Combobox(input_frame2, textvariable=molecule_id_var, values=["H2O", "CO2", "CO", "N2", "O2","CH4","H2","NO","NO2"]) 
 molecule_id_dropdown.grid(row=4, column=1)
 molecule_id_dropdown.set("H2O")  # Set a default value
 
