@@ -55,7 +55,7 @@ def update_plot():
 
     # Computing the combustion
     Products=combustion(Compositions)
-
+    
     # Creating plot  bar plot with the products of the combustion outlet using the dictionary obtained from combustion function
     # Creating the bar plot with a label of the molar fraction of the products
     bars=ax1.bar(range(len(Products)), Products.values())

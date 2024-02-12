@@ -91,7 +91,7 @@ def combustion(Compositions):
     O2_necessary=total_oxygen*(1+O2excess)+Oxyg_hydrogen
     Air_flow=O2_necessary/Oxy_fraction # Air is 21% oxygen and 79% nitrogen
     # Computing N2 from the air
-    N2_air=Air_flow*(1-Oxy_fraction)/Oxy_fraction
+    N2_air=Air_flow*(1-Oxy_fraction)
 
     # Computing the total amount of oxygen necessary for incomplete combustion
     Oxyg_methane_I=XMethane*Fuel_flow*3/2
@@ -138,7 +138,7 @@ def combustion(Compositions):
     H2O_hydrogen=Hydrogen_flow*Perc/100
 
     # Computing all flows
-    Oxyg_consum=(Perc/100*(total_oxygen)+total_oxygen_I*(1-Perc/100)+Oxyg_hydrogen)
+    Oxyg_consum=total_oxygen*Perc/100+total_oxygen_I*(1-Perc/100)+Oxyg_hydrogen
     CO2_prod=CO2_methane+CO2_ethane+CO2_ethene+CO2_propane+CO2_buthane
     CO_prod=CO_methane+CO_ethane+CO_ethene+CO_propane+CO_buthane
     H2O_prod=H2O_methane+H2O_ethane+H2O_ethene+H2O_propane+H2O_buthane+H2O_methane_I+H2O_ethane_I+H2O_ethene_I+H2O_propane_I+H2O_buthane_I+H2O_hydrogen
@@ -185,6 +185,8 @@ def combustion(Compositions):
     XNO2_outlet=NO2_outlet/Total_outlet
     # Saving results in dictionary
     Results={
+
+        # Outlet products
         'X2_Methane':XMethane_outlet,
         'X2_Ethane':XEthane_outlet,
         'X2_Ethene':XEthene_outlet,
