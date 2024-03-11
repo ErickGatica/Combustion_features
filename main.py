@@ -66,7 +66,7 @@ def update_plot():
     ax1.set_xticks(range(len(Products)))  # Add this line
     ax1.set_xticklabels(Products.keys())
     
-
+    
     # Create a table from the dictionary data
     table_data = list(zip(Products.keys(), ['{:.3e}'.format(val) for val in Products.values()])) #['{:.3e}'.format(val) for val in Products.values()]  np.round(list(Products.values()), 3)
     table = ax2.table(cellText=table_data, colLabels=['Products', 'Molar fraction'], loc='center')
