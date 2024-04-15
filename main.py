@@ -169,7 +169,8 @@ def update_spectrum():
     # Computing the spectrum
     Data=spectrum(P1,T1,length1,numin_cm,numax_cm,molecule_id,1,method1,wave_step1,Diluent)
     # Getting the data for plotting
-    nu=10**7/Data.nu # getting the data in nm
+    nu=1e7/Data.nu # getting the data in nm
+    nu=np.flip(nu) # flippling the data because the units
     Absorption=np.multiply(Data.coef,Factor_absorption)
     name_isoto=Data.name_isoto
     # Plotting the spectrum

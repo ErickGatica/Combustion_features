@@ -63,7 +63,7 @@ def Getting_table():
     }
     print('Data obtained',Data_table)
     # Filtering the Data values to avoid linestrengths less than 1E-27, so re defining the Data_table
-    value_to_filter=1E-25
+    value_to_filter=1E-24
     Data_table = {
         "selection_id_sw": Id_selection[sw_plot>value_to_filter],
         "nu_plot": nu_plot[sw_plot>value_to_filter],
@@ -108,7 +108,7 @@ def Plotting():
     R_g=8.314 # Gas constant in J/(mol*K)
     Avogadro=6.022e23 # Avogadro number
     # Getting the wavenumber of the transition and the line strength
-    Nu_plot=Data_table['nu_plot']
+    Nu_plot=Data_table['nu_plot'] #cm^-1
     S_plot=Data_table['sw_plot']
     Eprime_plot=Data_table['e_lower']
 

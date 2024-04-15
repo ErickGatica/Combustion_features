@@ -3,7 +3,7 @@ import numpy as np
 
 def spectrum(P,T,length,numin,numax,molecule_id,isotopo_id,method,wavestep,Diluent1):
     # Defining the molecule
-    molecule=moleculeName(molecule_id);
+    molecule=moleculeName(molecule_id)
     name_isoto=isotopologueName(molecule_id,isotopo_id); #Getting the name of the isotopologue from the id
     
     # Getting the data

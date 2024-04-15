@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from combustion import combustion
 
 Compositions_standar={
-        'T':878,#K
-        'P':1.5,#atm
+        'T':873.15,#K
+        'P':0.94,#atm
         'Methane':0.899,
         'Ethene':0.0,
         'Ethane': 0.0726,
@@ -25,7 +25,7 @@ Compositions_standar={
 # Defining linspace vector of hydrogen blending and % of complete combustion
 res=100
 Hydrogen_B=np.linspace(0,25,res)
-Perc=np.linspace(50,res,res)
+Perc=np.linspace(85,res,res)
 lenght=len(Hydrogen_B)
 # Defining vector to save the data of water, co2 and co molar fraction
 H2O_outlet=np.zeros((lenght,lenght))
